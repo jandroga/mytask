@@ -17,53 +17,54 @@ import javafx.scene.AccessibleAction;
  */
 public class Table {
     
-    public int mealsMax = 10;
+    private int mealsMax = 10;
     
-    public int mealsOnTable = 0;
+    private int mealsOnTable = 0;
     
-        public void prepararTaula(){
-        Client cl = new Client(this);
-        Chef cf = new Chef(this);
-        Thread t1 = new Thread(cl);
-        Thread t2 = new Thread(cf);
-          
-    }
+//    public Table(){
+//        
+//        
+//        }
     
-    public void placeMeal() throws InterruptedException{//Cooking meal cap a s'altra banda, classe Chef
+//        public void prepararTaula(){
+//        Client cl = new Client(this);
+//        Chef cf = new Chef(this);
+//        Thread t1 = new Thread(cl);
+//        Thread t2 = new Thread(cf);
+//          
+//    }
+    
+    public synchronized void placeMeal() throws InterruptedException{//Cooking meal cap a s'altra banda, classe Chef
         if(espaiTaula()) {
             System.out.println("Chef preparant menjar");
+            mealsOnTable++;
+            notifyAll();
         } else {
             System.out.println("Chef esperant a que se buidi sa taula");
+            wait();
         }
-        Thread.sleep(5000);
-        mealsOnTable++;
-        System.out.println("Menjar llest! Deixant-lo a sa taula, queden " + (mealsMax-mealsOnTable) + " espais per plats");
-        
-        
-    
+        Thread.sleep(500);
+        System.out.println("Menjar llest! Deixant-lo a sa taula, hi ha " + (mealsOnTable) + " plats");
     }
-    public void takeMeal() throws InterruptedException{
+    
+    public synchronized void takeMeal() throws InterruptedException{
+        //getEspaiTaula();
+        notifyAll();
         if(mealsOnTable>0){
+            mealsOnTable--;
+            
             System.out.println("El client ha agafat un plat de la taula, ara en queden "+mealsOnTable);}
-        else{
+        else{System.out.println("Els clients no han trobat menjar");
+        wait();
         }
-    
-        
+        Thread.sleep(500);
         
     }
+   
     
     public boolean espaiTaula(){
-        if(mealsOnTable<mealsMax);
-        return true;
+        return mealsOnTable<mealsMax;
     }
-            
-            
-    public Table(){
-        
-        
-        
-    }
-    
 
     
     //synchronized long BlockingQueue(){}
@@ -74,6 +75,4 @@ public class Table {
     Crear arraylist on placeMeal i takeMeal fiquin i llevin
     un número d'ordre. Una queue. 
     */
-
-    
 }
