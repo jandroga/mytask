@@ -22,6 +22,8 @@ public class MyTask extends JFrame {
     private Chef chef;
     private Viewer v;
     private Boolean clientState;
+    public Thread.State chefThread;
+    public Thread.State clientThread;
     
     public MyTask(){
         
@@ -49,14 +51,25 @@ public class MyTask extends JFrame {
         Thread tv = new Thread(v);
         tv.start();
         
-    
+    }
+    public Thread.State getClientState(Thread tcl1){//NO SÉ COM AGAFAR AIXÒ I
+        Thread.State clientThread = tcl1.getState();//PASSAR-HO A NES VIEWER
+    return clientThread;//PERQUÈ ME FACI SES OPERACIONS, AIUDAAAAAAAAAA
+    }
 //    public boolean getState(Thread tcl1){
 //        
+//        String estat;
 //        
 //        Thread.State state = tcl1.getState();
+//
+//        if(Thread.State(state) = Thread.State.RUNNABLE){
 //        System.out.println("Estat thread: " + state);
-//        return true;
-    }
+//            return true;
+//        }else{
+//            return false;
+//        }
+//    }
+
     
    
     public static void main(String[] args){
